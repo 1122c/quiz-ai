@@ -1,11 +1,10 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
- 
-
 
 @layer base {
   :root {
+    /* Color Variables */
     --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;
     --card: 0 0% 100%;
@@ -51,14 +50,23 @@
     --input: 217.2 32.6% 17.5%;
     --ring: 224.3 76.3% 48%;
   }
-}
 
- 
-@layer base {
+  /* Ensuring body and HTML take full viewport height */
+  html, body {
+    min-height: 100vh;
+    @apply flex flex-col;
+  }
+
   * {
     @apply border-border;
   }
+
   body {
     @apply bg-background text-foreground;
+  }
+
+  /* Flex container settings for the main layout */
+  .main-layout {
+    @apply flex flex-col min-h-screen;
   }
 }
