@@ -51,9 +51,19 @@ const questions = [
 
 export default function Home() {
   const [started, setStarted] = useState(false);
+  const [currentQuestion, setCurrentQuestion] = useState(0);
 
   const handleNext = () => {
-    setStarted((prev) => !prev); // Toggles the started state for demonstration
+    if (!started) {
+    setStarted(true); //walk through addition, does it interfere with setStarted prev?
+    // setStarted((prev) => !prev); // Toggles the started state for demonstration check this later
+    return;
+    }
+
+    if (currentQuestion < questions.length - 1) {
+        setCurrentQuestion(currentQuestion + 1);
+    }
+
   };
 
   return (
@@ -64,13 +74,21 @@ export default function Home() {
         ) : (
           <div>
             <h2 className="text-3xl font-bold">
-              What is your level of understanding React?
+              {questions [currentQuestion].questionText}
             </h2>
             <div className="grid grid-cols-1 gap-6 mt-6">
-              <Button variant="secondary">Beginner</Button>
+                {
+                    questions[currentQuestion].answers.map
+                    (answer => {
+                        return (
+                            <Button key={answer.id} variant={"secondary"}>{answer.answerText}</Button>
+                        )
+                    })
+                }
+              {/* <Button variant="secondary">Beginner</Button>
               <Button variant="secondary">Intermediate</Button>
               <Button variant="secondary">Advanced</Button>
-              <Button variant="secondary">Godlike</Button>
+              <Button variant="secondary">Godlike</Button> */}
             </div>
           </div>
         )}
