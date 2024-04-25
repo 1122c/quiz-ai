@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import ProgressBar from "@/components/ui/progressBar";
 
 const questions = [
   {
@@ -68,6 +69,11 @@ export default function Home() {
 
   return (
     <div className="flex flex-col flex-1">
+        <div className="position-sticky top-0 z-10 shadow-md py-4 w-full">
+            <header>
+                <ProgressBar value={currentQuestion / questions.length} * 100} /> {/* was 50 for troubleshooting */}
+            </header>
+        </div>
       <main className="flex justify-center flex-1">
         {!started ? (
           <h1 className="text-3xl font-bold">Welcome to Quiz Time! 👋</h1>
