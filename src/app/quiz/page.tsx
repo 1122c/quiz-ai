@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import ProgressBar from "@/components/ui/progressBar";
 import { ChevronLeft, X } from "lucide-react";
+import ResultCard from "./ResultCard";
 
 const questions = [
   {
@@ -64,18 +65,20 @@ export default function Home() {
     }
     if (currentQuestion < questions.length - 1) {
       setCurrentQuestion(currentQuestion + 1);
+
+      setSelectedAnswer(null);
       setIsCorrect(null); // Reset correctness state
-    } else {
-      // Handle quiz end
-      alert("Quiz completed! Your score: " + score);
-      setStarted(false);
-      setCurrentQuestion(0);
-      setScore(0);
-    }
+    // } else {
+    //   // Handle quiz end
+    //   alert("Quiz completed! Your score: " + score);
+    //   setStarted(false);
+    //   setCurrentQuestion(0);
+    //   setScore(0);
+    // }
   };
 
   const handleAnswer = (answer) => {
-    setSelectedAnswer(answer.id);
+    setSelectedAnswer(answer.id); //needs to be defined or corrected!!!
     const isCurrentCorrect = answer.isCorrect;
     if (isCurrentCorrect) {
       setScore(score + 1);
@@ -125,7 +128,7 @@ export default function Home() {
         )}
       </main>
       <footer className="footer pb-9 px-6 relative mb-0">
-        <p>{isCorrect ? "Correct" : "Incorrect"}</p>
+        <ResultCard isCorrect={isCorrect} correctAnswer={questions[currentQuestion].answers.find(answer => answer.isCorrect === true)?.answerText} />
         <Button onClick={handleNext}>
           {!started || currentQuestion === questions.length - 1
             ? "Start"
