@@ -57,6 +57,7 @@ export default function Home() {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [score, setScore] = useState(0);
   const [isCorrect, setIsCorrect] = useState(null);
+  const [selectedAnswer, setSelectedAnswer] = useState(null);
 
   const handleNext = () => {
     if (!started) {
@@ -67,7 +68,8 @@ export default function Home() {
       setCurrentQuestion(currentQuestion + 1);
 
       setSelectedAnswer(null);
-      setIsCorrect(null); // Reset correctness state
+      setIsCorrect(null);
+    } // Reset correctness state
     // } else {
     //   // Handle quiz end
     //   alert("Quiz completed! Your score: " + score);
@@ -128,7 +130,14 @@ export default function Home() {
         )}
       </main>
       <footer className="footer pb-9 px-6 relative mb-0">
-        <ResultCard isCorrect={isCorrect} correctAnswer={questions[currentQuestion].answers.find(answer => answer.isCorrect === true)?.answerText} />
+        <ResultCard
+          isCorrect={isCorrect}
+          correctAnswer={
+            questions[currentQuestion].answers.find(
+              (answer) => answer.isCorrect === true
+            )?.answerText
+          }
+        />
         <Button onClick={handleNext}>
           {!started || currentQuestion === questions.length - 1
             ? "Start"
@@ -137,4 +146,4 @@ export default function Home() {
       </footer>
     </div>
   );
-}}
+}
