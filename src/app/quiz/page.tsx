@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import ProgressBar from "@/components/ui/progressBar";
+import { ChevronLeft, X } from "lucide-react";
 
 const questions = [
   {
@@ -53,54 +54,83 @@ const questions = [
 export default function Home() {
   const [started, setStarted] = useState(false);
   const [currentQuestion, setCurrentQuestion] = useState(0);
+  const [score, setScore] = useState(0);
+  const [isCorrect, setIsCorrect] = useState(null);
 
   const handleNext = () => {
     if (!started) {
-    setStarted(true); //walk through addition, does it interfere with setStarted prev?
-    // setStarted((prev) => !prev); // Toggles the started state for demonstration check this later
-    return;
+      setStarted(true); // This should start the quiz
+      return;
     }
-
     if (currentQuestion < questions.length - 1) {
-        setCurrentQuestion(currentQuestion + 1);
+      setCurrentQuestion(currentQuestion + 1);
+      setIsCorrect(null); // Reset correctness state
+    } else {
+      // Handle quiz end
+      alert("Quiz completed! Your score: " + score);
+      setStarted(false);
+      setCurrentQuestion(0);
+      setScore(0);
     }
+  };
 
+  const handleAnswer = (answer) => {
+    setSelectedAnswer(answer.id);
+    const isCurrentCorrect = answer.isCorrect;
+    if (isCurrentCorrect) {
+      setScore(score + 1);
+    }
+    setIsCorrect(isCurrentCorrect);
   };
 
   return (
     <div className="flex flex-col flex-1">
-        <div className="position-sticky top-0 z-10 shadow-md py-4 w-full">
-            <header>
-                <ProgressBar value={currentQuestion / questions.length} * 100} /> {/* was 50 for troubleshooting */}
-            </header>
-        </div>
+      <div className="position-sticky top-0 z-10 shadow-md py-4 w-full">
+        <header className="grid grid-cols-[auto,1fr,auto] grid-flow-col items-center justify-between py-2 gap-2">
+          <Button
+            size="icon"
+            variant="outline"
+          >
+            <ChevronLeft />
+          </Button>
+          <ProgressBar value={(currentQuestion / questions.length) * 100} />
+          <Button
+            size="icon"
+            variant="outline"
+          >
+            <X />
+          </Button>
+        </header>
+      </div>
       <main className="flex justify-center flex-1">
         {!started ? (
           <h1 className="text-3xl font-bold">Welcome to Quiz Time! 👋</h1>
         ) : (
           <div>
             <h2 className="text-3xl font-bold">
-              {questions [currentQuestion].questionText}
+              {questions[currentQuestion].questionText}
             </h2>
             <div className="grid grid-cols-1 gap-6 mt-6">
-                {
-                    questions[currentQuestion].answers.map
-                    (answer => {
-                        return (
-                            <Button key={answer.id} variant={"secondary"}>{answer.answerText}</Button>
-                        )
-                    })
-                }
-              {/* <Button variant="secondary">Beginner</Button>
-              <Button variant="secondary">Intermediate</Button>
-              <Button variant="secondary">Advanced</Button>
-              <Button variant="secondary">Godlike</Button> */}
+              {questions[currentQuestion].answers.map((answer) => (
+                <Button
+                  key={answer.id}
+                  variant="secondary"
+                  onClick={() => handleAnswer(answer)}
+                >
+                  {answer.answerText}
+                </Button>
+              ))}
             </div>
           </div>
         )}
       </main>
       <footer className="footer pb-9 px-6 relative mb-0">
-        <Button onClick={handleNext}>{!started ? "Start" : "Next"}</Button>
+        <p>{isCorrect ? "Correct" : "Incorrect"}</p>
+        <Button onClick={handleNext}>
+          {!started || currentQuestion === questions.length - 1
+            ? "Start"
+            : "Next"}
+        </Button>
       </footer>
     </div>
   );
