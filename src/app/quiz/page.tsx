@@ -68,8 +68,8 @@ export default function Home() {
       setCurrentQuestion(currentQuestion + 1);
 
       setSelectedAnswer(null);
-      setIsCorrect(null);
-    } // Reset correctness state
+      setIsCorrect(null); // Reset correctness state
+    } 
     // } else {
     //   // Handle quiz end
     //   alert("Quiz completed! Your score: " + score);
