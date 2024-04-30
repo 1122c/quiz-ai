@@ -138,7 +138,11 @@ export default function Home() {
             )?.answerText
           }
         />
-        <Button onClick={handleNext}>
+        <Button
+          variant="neo"
+          size="lg"
+          onClick={handleNext}
+        >
           {!started || currentQuestion === questions.length - 1
             ? "Start"
             : "Next"}
