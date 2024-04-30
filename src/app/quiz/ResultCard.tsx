@@ -1,4 +1,6 @@
 import React from 'react'
+import { clsx } from 'clsx'
+import { cn } from "@/lib/utils"
 
 type Props = {
     isCorrect: boolean | null,
@@ -14,8 +16,22 @@ const ResultCard = (props: Props) => {
 
     const text = isCorrect ? 'Correct!' : 'Incorrect! The correct answer is: ' + props.correctAnswer;
 
+    const borderClasses = clsx({
+        "border border-green-500" : isCorrect,
+        "border border-red-500" : !isCorrect,
+    });
+
     return (
-        <div>{text}</div>
+        <div className={cn(
+            borderClasses,
+            "border-2",
+            "rounded-lg",
+            "p-4",
+            "text-lg",
+            "font-semibold",
+            "my-4",
+            "bg-secondary"
+        )}>{text}</div>
     )
 }
 
