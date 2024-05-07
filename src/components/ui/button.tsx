@@ -3,6 +3,7 @@ import { Slot } from "@radix-ui/react-slot"
 import { cva, type VariantProps } from "class-variance-authority"
 
 import { cn } from "@/lib/utils"
+import { clsx } from "clsx";
 
 const neoClasses =
   "w-full rounded-full px-3.5 py-5 border-2 relative z-10 text-lg font-bold hover:transform hover:translate-y-[-2-px] transition-transform-duration-200";
@@ -43,15 +44,45 @@ export interface ButtonProps
   asChild?: boolean
 }
 
+export const spanVariants = cva(
+  ["absolute", "h-14", "bottom-[-7px]", "w-full", "border-2", "left-0", "z-0"],
+  {
+    variants: {
+      variant: {
+        default: "hidden",
+        destructive: "hidden",
+        outline: "hidden",
+        secondary: "hidden",
+        ghost: "hidden",
+        link: "hidden",
+        neo: "border-blue-900 bg-primary-shadow",
+      },
+    },
+    defaultVariants: {
+      variant: "default",
+    },
+  }
+);
+
+
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant, size, asChild = false, ...props }, ref) => {
     const Comp = asChild ? Slot : "button"
+
+    const containerClass = clsx({
+      relative: variant === "neo"
+    });
+
     return (
+      <div className={containerClass}>
+        {/* does this need to say containerClasses? */}
       <Comp
         className={cn(buttonVariants({ variant, size, className }))}
         ref={ref}
         {...props}
       />
+      <span className={cn(spanVariants({ variant }))}></span>
+      </div>
     )
   }
 )
