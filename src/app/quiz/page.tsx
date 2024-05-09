@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import ProgressBar from "@/components/ui/progressBar";
 import { ChevronLeft, X } from "lucide-react";
@@ -58,32 +58,27 @@ export default function Home() {
   const [score, setScore] = useState(0);
   const [isCorrect, setIsCorrect] = useState(null);
   const [selectedAnswer, setSelectedAnswer] = useState(null);
+  const [submitted, setSubmitted] = useState(false);
 
   const handleNext = () => {
     if (!started) {
-      setStarted(true); // This should start the quiz
+      setStarted(true);
       return;
     }
     if (currentQuestion < questions.length - 1) {
-      setCurrentQuestion(currentQuestion + 1);
-
+      setCurrentQuestion((prev) => prev + 1);
       setSelectedAnswer(null);
-      setIsCorrect(null); // Reset correctness state
-    } 
-    // } else {
-    //   // Handle quiz end
-    //   alert("Quiz completed! Your score: " + score);
-    //   setStarted(false);
-    //   setCurrentQuestion(0);
-    //   setScore(0);
-    // }
+      setIsCorrect(null);
+    } else {
+      setSubmitted(true); // Optionally handle the end of the quiz
+    }
   };
 
   const handleAnswer = (answer) => {
-    setSelectedAnswer(answer.id); //needs to be defined or corrected!!!
+    setSelectedAnswer(answer.id);
     const isCurrentCorrect = answer.isCorrect;
     if (isCurrentCorrect) {
-      setScore(score + 1);
+      setScore((prev) => prev + 1);
     }
     setIsCorrect(isCurrentCorrect);
   };
@@ -116,15 +111,24 @@ export default function Home() {
               {questions[currentQuestion].questionText}
             </h2>
             <div className="grid grid-cols-1 gap-6 mt-6">
-              {questions[currentQuestion].answers.map((answer) => (
-                <Button
-                  key={answer.id}
-                  variant="secondary"
-                  onClick={() => handleAnswer(answer)}
-                >
-                  {answer.answerText}
-                </Button>
-              ))}
+              {questions[currentQuestion].answers.map((answer) => {
+                const variant =
+                  selectedAnswer === answer.id
+                    ? answer.isCorrect
+                      ? "neoSuccess"
+                      : "neoDanger"
+                    : "neoOutline";
+                return (
+                  <Button
+                    key={answer.id}
+                    variant={variant}
+                    size="xl"
+                    onClick={() => handleAnswer(answer)}
+                  >
+                    <p className="whitespace-normal">{answer.answerText}</p>
+                  </Button>
+                );
+              })}
             </div>
           </div>
         )}
@@ -134,7 +138,7 @@ export default function Home() {
           isCorrect={isCorrect}
           correctAnswer={
             questions[currentQuestion].answers.find(
-              (answer) => answer.isCorrect === true
+              (answer) => answer.isCorrect
             )?.answerText
           }
         />
@@ -143,8 +147,10 @@ export default function Home() {
           size="lg"
           onClick={handleNext}
         >
-          {!started || currentQuestion === questions.length - 1
+          {!started
             ? "Start"
+            : currentQuestion === questions.length - 1
+            ? "Submit"
             : "Next"}
         </Button>
       </footer>
