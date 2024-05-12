@@ -85,11 +85,13 @@ export default function Home() {
     setIsCorrect(isCurrentCorrect);
   };
 
+  const scorePercentage: number = Math.round((score / questions.length) * 100);
+
   if (submitted) {
     return (
       <QuizSubmission
         score={score}
-        scorePercentage={}
+        scorePercentage={scorePercentage}
         totalQuestions={questions.length}
       />
     );
