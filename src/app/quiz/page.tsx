@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import ProgressBar from "@/components/ui/progressBar";
 import { ChevronLeft, X } from "lucide-react";
 import ResultCard from "./ResultCard";
+import QuizSubmission from "./QuizSubmission";
 
 const questions = [
   {
@@ -58,7 +59,7 @@ export default function Home() {
   const [score, setScore] = useState(0);
   const [isCorrect, setIsCorrect] = useState(null);
   const [selectedAnswer, setSelectedAnswer] = useState(null);
-  const [submitted, setSubmitted] = useState(false);
+  const [submitted, setSubmitted] = useState<boolean>(false);
 
   const handleNext = () => {
     if (!started) {
@@ -66,11 +67,12 @@ export default function Home() {
       return;
     }
     if (currentQuestion < questions.length - 1) {
-      setCurrentQuestion((prev) => prev + 1);
+      setCurrentQuestion(currentQuestion + 1);
       setSelectedAnswer(null);
       setIsCorrect(null);
     } else {
       setSubmitted(true); // Optionally handle the end of the quiz
+      return;
     }
   };
 
@@ -83,6 +85,15 @@ export default function Home() {
     setIsCorrect(isCurrentCorrect);
   };
 
+  if (submitted) {
+    return (
+      <QuizSubmission
+        score={score}
+        scorePercentage={}
+        totalQuestions={questions.length}
+      />
+    );
+  }
   return (
     <div className="flex flex-col flex-1">
       <div className="position-sticky top-0 z-10 shadow-md py-4 w-full">
@@ -115,9 +126,14 @@ export default function Home() {
                 const variant =
                   selectedAnswer === answer.id
                     ? answer.isCorrect
-                      ? "neoSuccess"
+                      ? "neoSucess"
                       : "neoDanger"
                     : "neoOutline";
+                selectedAnswer === answer.id
+                  ? answer.isCorrect
+                    ? "neoSuccess"
+                    : "neoDanger"
+                  : "neoOutline";
                 return (
                   <Button
                     key={answer.id}
