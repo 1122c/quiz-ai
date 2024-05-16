@@ -7,9 +7,14 @@ const UploadDoc = () => {
     null
   );
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string>("");
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (!document) {
+        setError("please upload a document first");
+        return;
+    }
     setIsLoading(true);
     // console.log(document);
     const formData = new FormData();
@@ -49,6 +54,7 @@ const UploadDoc = () => {
             onChange={(e) => setDocument(e?.target?.files?.[0])}
           />
         </label>
+        {error ? <p className="text-red-600">{error}</p> : null}
         <Button
           size="lg"
           className="mt-2"
