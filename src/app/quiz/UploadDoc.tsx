@@ -11,7 +11,21 @@ const UploadDoc = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsLoading(true);
-    console.log(document);
+    // console.log(document);
+    const formData = new FormData();
+    formData.append("pdf", document as Blob);
+    try {
+      const res = await fetch("/api/quiz/generate", {
+        method: "POST",
+        body: formData,
+      });
+      if (res.status === 200) {
+        console.log("quiz generated successfully");
+      }
+    } catch (e) {
+      console.log("oops there was an error while generating the quiz", e);
+    }
+    setIsLoading(false);
   };
 
   return (
