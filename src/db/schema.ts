@@ -39,7 +39,7 @@ export const questionsRelations = relations(questions, ({ one, many }) => ({
 
 export const questionAnswers = pgTable("answers", {
     id: serial("id").primaryKey(),
-    questionId: integer("question_id")
+    questionId: integer("question_id"),
     answerText: text("answer_text"),
     isCorrect: boolean("is_correct"),
 });
