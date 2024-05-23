@@ -64,7 +64,7 @@ type Props = {
 // ];
 
 export default function QuizQuestions(props: Props) {
-    const { questions } = props;
+    const { questions } = props.quiz;
   const [started, setStarted] = useState(false);
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [score, setScore] = useState(0);
@@ -87,7 +87,7 @@ export default function QuizQuestions(props: Props) {
     }
   };
 
-  const handleAnswer = (answer) => {
+  const handleAnswer = (answer: Answer) => {
     setSelectedAnswer(answer.id);
     const isCurrentCorrect = answer.isCorrect;
     if (isCurrentCorrect) {
@@ -167,8 +167,8 @@ export default function QuizQuestions(props: Props) {
           isCorrect={isCorrect}
           correctAnswer={
             questions[currentQuestion].answers.find(
-              (answer) => answer.isCorrect
-            )?.answerText
+              (answer) => answer.isCorrect === true
+            )?.answerText || ""
           }
         />
         <Button
