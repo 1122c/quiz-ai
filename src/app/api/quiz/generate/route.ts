@@ -51,15 +51,27 @@ export async function POST(req: NextRequest) {
         type: "object",
         properties: {
           quiz: {
-            name: { type: "string" },
-            description: { type: "string" },
-            questions: {
-              type: "array",
-              items: {
-                type: "object",
-                properties: {
-                  questionText: { type: "string" },
-                  answers: {},
+            type: "object",
+            properties: {
+              name: { type: "string" },
+              description: { type: "string" },
+              questions: {
+                type: "array",
+                items: {
+                  type: "object",
+                  properties: {
+                    questionText: { type: "string" },
+                    answers: {
+                      type: "array",
+                      items: {
+                        type: "object",
+                        properties: {
+                          answerText: { type: "string" },
+                          isCorrect: { type: "boolean" },
+                        },
+                      },
+                    },
+                  },
                 },
               },
             },
