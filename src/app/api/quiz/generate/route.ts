@@ -26,6 +26,7 @@ export async function POST(req: NextRequest) {
     console.log("filtered docs");
 
     const texts = selectedDocuments.map((doc) => doc.pageContent);
+    console.log(texts);
 
     const prompt =
       "given the text which is a summar of the document, generate a quiz based on the text. Return json only that contains a quiz object with fields: name, description, and questions. The questions is an array of object with fields: questionText, answers. The answers is an array of objects with fields: answerText, isCorrect.";
@@ -102,11 +103,7 @@ export async function POST(req: NextRequest) {
 
     const { quizId } = await saveQuiz(result.quiz);
 
-    return NextResponse.json(
-      { quizId },
-      { message: "created successfully" },
-      { status: 200 }
-    );
+    return NextResponse.json({ quizId }, { status: 200 });
   } catch (e: any) {
     return NextResponse.json({ error: e.message }, { status: 500 });
   }

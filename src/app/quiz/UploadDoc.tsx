@@ -32,11 +32,11 @@ const UploadDoc = () => {
         body: formData,
       });
       console.log("posted")
-      
+
       if (res.status === 200) {
         const data = await res.json();
         const quizId = data.quizId;
-
+        console.log(`quiz/${quizId}`);
         router.push(`quiz/${quizId}`);
       }
     } catch (e) {
