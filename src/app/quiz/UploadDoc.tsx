@@ -37,7 +37,7 @@ const UploadDoc = () => {
         const data = await res.json();
         const quizId = data.quizId;
         console.log(`quiz/${quizId}`);
-        router.push(`quiz/${quizId}`);
+        router.push(`/quiz/${quizId}`);
       }
     } catch (e) {
       console.log("Oops, there was an error while generating the quiz", e);
