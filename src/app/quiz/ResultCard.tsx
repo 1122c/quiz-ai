@@ -3,15 +3,15 @@ import { clsx } from 'clsx'
 import { cn } from "@/lib/utils"
 
 type Props = {
-    isCorrect: boolean | null,
-    correctAnswer: string
-}
+  isCorrect: boolean | null | undefined;
+  correctAnswer: string;
+};
 
 const ResultCard = (props: Props) => {
     const { isCorrect } = props;
 
-    if (isCorrect === null) {
-        return null
+    if (isCorrect === null || isCorrect === undefined) {
+      return null;
     }
 
     const text = isCorrect ? 'Correct!' : 'Incorrect! The correct answer is: ' + props.correctAnswer;

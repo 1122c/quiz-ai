@@ -1,21 +1,27 @@
 "use client";
 
-import React, { useState } from "react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import ProgressBar from "@/components/ui/progressBar";
 import { ChevronLeft, X } from "lucide-react";
 import ResultCard from "./ResultCard";
 import QuizSubmission from "./QuizSubmission";
 import { InferSelectModel } from "drizzle-orm";
-import { questionAnswers, questions as DbQuestions, quizzes} from "@/db/schema";
+import {
+  questionAnswers,
+  questions as DbQuestions,
+  quizzes,
+} from "@/db/schema";
+import { saveSubmission } from "@/actions/saveSubmissions";
+import { useRouter } from "next/navigation";
 
 type Answer = InferSelectModel<typeof questionAnswers>;
-type Question = InferSelectModel<typeof DbQuestions> & {answers: Answer[]};
-type Quiz = InferSelectModel<typeof quizzes> & { questions: Question[]};
+type Question = InferSelectModel<typeof DbQuestions> & { answers: Answer[] };
+type Quiz = InferSelectModel<typeof quizzes> & { questions: Question[] };
 
 type Props = {
-    quiz: Quiz
-}
+  quiz: Quiz;
+};
 
 // const questions = [
 //   {
@@ -77,6 +83,7 @@ export default function QuizQuestions(props: Props) {
     }[]
   >([]);
   const [submitted, setSubmitted] = useState<boolean>(false);
+  const router = useRouter();
 
   const handleNext = () => {
     if (!started) {
@@ -95,10 +102,13 @@ export default function QuizQuestions(props: Props) {
 
   const handleAnswer = (answer: Answer, questionId: number) => {
     // setSelectedAnswer(answer.id);
-    const newUserAnswerArr = [...userAnswers, {
-      answerId: answer.id,
-      questionId
-    }];
+    const newUserAnswerArr = [
+      ...userAnswers,
+      {
+        answerId: answer.id,
+        questionId,
+      },
+    ];
     setUserAnswers(newUserAnswerArr);
     const isCurrentCorrect = answer.isCorrect;
     if (isCurrentCorrect) {
@@ -115,7 +125,21 @@ export default function QuizQuestions(props: Props) {
     }
   };
 
+  const handleExit = () => {
+    router.push("/dashboard");
+  };
+
   const scorePercentage: number = Math.round((score / questions.length) * 100);
+  const selectedAnswer: number | null | undefined = userAnswers.find(
+    (item) => item.questionId === questions[currentQuestion].id
+  )?.answerId;
+  const isCorrect: boolean | null = questions[
+    currentQuestion
+  ].answers.findIndex((answer) => answer.id === selectedAnswer)
+    ? questions[currentQuestion].answers.find(
+        (answer) => answer.id === selectedAnswer
+      )?.isCorrect
+    : null;
 
   if (submitted) {
     return (
@@ -141,6 +165,7 @@ export default function QuizQuestions(props: Props) {
           <Button
             size="icon"
             variant="outline"
+            onClick={handleExit}
           >
             <X />
           </Button>
@@ -170,10 +195,12 @@ export default function QuizQuestions(props: Props) {
                 return (
                   <Button
                     key={answer.id}
-                    disabled={selectedAnswer !== null}
+                    disabled={!!selectedAnswer !== null}
                     variant={variant}
                     size="xl"
-                    onClick={() => handleAnswer(answer, questions[currentQuestion].id)}
+                    onClick={() =>
+                      handleAnswer(answer, questions[currentQuestion].id)
+                    }
                     className="disabled:opacity-100"
                   >
                     <p className="whitespace-normal">{answer.answerText}</p>
