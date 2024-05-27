@@ -30,11 +30,7 @@ const page = async ({
     return <div>Quiz not found.</div>;
   }
 
-  return (
-    <div>
-      <QuizQuestions quiz={quiz} />
-    </div>
-  );
+  return <QuizQuestions quiz={quiz} />;
 };
 
 export default page;

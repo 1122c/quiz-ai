@@ -64,12 +64,18 @@ type Props = {
 // ];
 
 export default function QuizQuestions(props: Props) {
-    const { questions } = props.quiz;
+  const { questions } = props.quiz;
   const [started, setStarted] = useState(false);
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [score, setScore] = useState(0);
   const [isCorrect, setIsCorrect] = useState(null);
   const [selectedAnswer, setSelectedAnswer] = useState(null);
+  const [userAnswers, setUserAnswers] = useState<
+    {
+      questionId: number;
+      answerId: number;
+    }[]
+  >([]);
   const [submitted, setSubmitted] = useState<boolean>(false);
 
   const handleNext = () => {
@@ -79,7 +85,7 @@ export default function QuizQuestions(props: Props) {
     }
     if (currentQuestion < questions.length - 1) {
       setCurrentQuestion(currentQuestion + 1);
-      setSelectedAnswer(null);
+      // setSelectedAnswer(null);
       setIsCorrect(null);
     } else {
       setSubmitted(true); // Optionally handle the end of the quiz
@@ -87,13 +93,26 @@ export default function QuizQuestions(props: Props) {
     }
   };
 
-  const handleAnswer = (answer: Answer) => {
-    setSelectedAnswer(answer.id);
+  const handleAnswer = (answer: Answer, questionId: number) => {
+    // setSelectedAnswer(answer.id);
+    const newUserAnswerArr = [...userAnswers, {
+      answerId: answer.id,
+      questionId
+    }];
+    setUserAnswers(newUserAnswerArr);
     const isCurrentCorrect = answer.isCorrect;
     if (isCurrentCorrect) {
       setScore((prev) => prev + 1);
     }
     setIsCorrect(isCurrentCorrect);
+  };
+
+  //const handleSubmit = async () => { where is this?????}
+
+  const handlePressPrev = () => {
+    if (currentQuestion! == 0) {
+      setCurrentQuestion((prevCurrentQuestion) => prevCurrentQuestion - 1);
+    }
   };
 
   const scorePercentage: number = Math.round((score / questions.length) * 100);
@@ -114,6 +133,7 @@ export default function QuizQuestions(props: Props) {
           <Button
             size="icon"
             variant="outline"
+            onClick={handlePressPrev}
           >
             <ChevronLeft />
           </Button>
@@ -150,9 +170,11 @@ export default function QuizQuestions(props: Props) {
                 return (
                   <Button
                     key={answer.id}
+                    disabled={selectedAnswer !== null}
                     variant={variant}
                     size="xl"
-                    onClick={() => handleAnswer(answer)}
+                    onClick={() => handleAnswer(answer, questions[currentQuestion].id)}
+                    className="disabled:opacity-100"
                   >
                     <p className="whitespace-normal">{answer.answerText}</p>
                   </Button>
