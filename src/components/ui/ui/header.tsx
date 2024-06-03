@@ -1,0 +1,60 @@
+import { auth, signOut } from "@/auth";
+import { Button } from "../button";
+import Image from "next/image";
+import Link from "next/link";
+
+const Header = async () => {
+  const session = await auth();
+  console.log(session);
+
+  const handleSignOut = async () => {
+    "use server";
+    await signOut();
+  };
+
+  return (
+    <header>
+      <nav className="px-4 py-2.5">
+        <div className="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl">
+          <h1 className="text-3xl font-bold">Quiz AI</h1>
+          <div className="flex gap-2">
+            <Link
+              className="underline"
+              href="/quiz"
+            >
+              Sample Quiz
+            </Link>
+            <Link
+              className="underline"
+              href="/quiz/new"
+            >
+              New Quiz
+            </Link>
+          </div>
+          {session?.user ? (
+            <div className="flex items-center gap-4">
+              {session.user.name && session.user.image && (
+                <Image
+                  src={session.user.image}
+                  alt={session.user.name}
+                  width={32}
+                  height={32}
+                  className="rounded-full"
+                />
+              )}
+              <form action={handleSignOut}>
+                <Button type="submit">Sign Out</Button>
+              </form>
+            </div>
+          ) : (
+            <Link href="/api/auth/signin">
+              <Button variant="link">Sign In</Button>
+            </Link>
+          )}
+        </div>
+      </nav>
+    </header>
+  );
+};
+
+export { Header };
