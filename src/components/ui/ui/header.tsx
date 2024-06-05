@@ -3,6 +3,17 @@ import { Button } from "../button";
 import Image from "next/image";
 import Link from "next/link";
 
+// function SignOut() {
+//     return (
+//         <form action={async () => 
+//         'use server';
+//     await signOut()
+//         }}>
+//         <Button type = "submit" variant="ghost">Sign Out</Button>
+//         </form>
+//     )
+// } this entire block breaks the code. lines 21-24 and 56-59 works better. need to fix?
+
 const Header = async () => {
   const session = await auth();
   console.log(session);
@@ -43,12 +54,23 @@ const Header = async () => {
                 />
               )}
               <form action={handleSignOut}>
-                <Button type="submit">Sign Out</Button>
+                <Button
+                  type="submit"
+                  variant="ghost"
+                >
+                  Sign Out
+                </Button>
+                {/* there is additional styling for this button around 2:43 of the video. come back to this after other things are resolved */}
               </form>
             </div>
           ) : (
             <Link href="/api/auth/signin">
-              <Button variant="link">Sign In</Button>
+              <Button
+                variant="link"
+                className="rounded-xl border"
+              >
+                Sign In
+              </Button>
             </Link>
           )}
         </div>
