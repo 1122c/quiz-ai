@@ -29,9 +29,9 @@ import {
   DropdownMenuSubContent,
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+} from "@/components/ui/ui/dropdown-menu"; //correct this path. tried with @/components/ui/dropdown-menu and still had problems
 
-export function DropdownMenuDemo() {
+export function NavMenu() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>

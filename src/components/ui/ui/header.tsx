@@ -2,10 +2,18 @@ import { auth, signOut } from "@/auth";
 import { Button } from "../button";
 import Image from "next/image";
 import Link from "next/link";
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+} from "@/components/ui/dropdown-menu"; // Ensure this import path is correct
 
 // function SignOut() {
 //     return (
-//         <form action={async () => 
+//         <form action={async () =>
 //         'use server';
 //     await signOut()
 //         }}>
@@ -45,13 +53,26 @@ const Header = async () => {
           {session?.user ? (
             <div className="flex items-center gap-4">
               {session.user.name && session.user.image && (
-                <Image
-                  src={session.user.image}
-                  alt={session.user.name}
-                  width={32}
-                  height={32}
-                  className="rounded-full"
-                />
+                <DropdownMenu>
+                  <DropdownMenuTrigger>
+                    <Button variant="ghost">
+                      <Image
+                        src={session.user.image}
+                        alt={session.user.name}
+                        width={32}
+                        height={32}
+                        className="rounded-full"
+                      />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent>
+                    <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem onSelect={handleSignOut}>
+                      <span>Sign Out</span>
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
               )}
               <form action={handleSignOut}>
                 <Button
