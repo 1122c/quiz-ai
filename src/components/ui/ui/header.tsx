@@ -9,9 +9,9 @@ import {
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
-} from "@/components/ui/NavMenu"; // Ensure this import path is correct
-import { NavMenu } from "@/components/NavMenu";
-import Link from "next/link";
+} from "@/components/ui/dropdown-menu"; // Ensure this import path is correct
+import { NavMenu } from "@/components/ui/NavMenu";
+// import Link from "next/link";
 
 // function SignOut() {
 //     return (

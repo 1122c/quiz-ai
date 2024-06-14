@@ -30,7 +30,7 @@ import {
   DropdownMenuSubContent,
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
-} from "@/components/ui/ui/dropdown-menu"; //correct this path. tried with @/components/ui/dropdown-menu and still had problems
+} from "@/components/ui/dropdown-menu"; //correct this path. tried with @/components/ui/dropdown-menu and still had problems
 
 export function NavMenu() {
   return (
@@ -43,7 +43,7 @@ export function NavMenu() {
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
           <DropdownMenuItem>
-            <Link href="/dashboard">
+            <Link href="/dashboard" className="flex flexr-row">
               <BarChartBig className="mr-2 h-4 w-4" />
               <span>Dashboard</span>
             </Link>
@@ -119,3 +119,4 @@ export function NavMenu() {
     </DropdownMenu>
   );
 }
+//see video at 2:51-2:52 to remove certain lines like logout, api, and some other menu group lines. 
