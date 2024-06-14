@@ -38,7 +38,7 @@ export const users = pgTable("user", {
   image: text("image"),
 });
 
-const userRelations = relations(users, ({ many }) => ({
+export const userRelations = relations(users, ({ many }) => ({
     quizzes: many(quizzes)
 })
 )

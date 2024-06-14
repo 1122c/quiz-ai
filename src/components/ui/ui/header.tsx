@@ -9,7 +9,9 @@ import {
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
-} from "@/components/ui/dropdown-menu"; // Ensure this import path is correct
+} from "@/components/ui/NavMenu"; // Ensure this import path is correct
+import { NavMenu } from "@/components/NavMenu";
+import Link from "next/link";
 
 // function SignOut() {
 //     return (
@@ -54,7 +56,7 @@ const Header = async () => {
             <div className="flex items-center gap-4">
               {session.user.name && session.user.image && (
                 <DropdownMenu>
-                  <DropdownMenuTrigger>
+                  <DropdownMenuTrigger asChild>
                     <Button variant="ghost">
                       <Image
                         src={session.user.image}
@@ -65,13 +67,14 @@ const Header = async () => {
                       />
                     </Button>
                   </DropdownMenuTrigger>
-                  <DropdownMenuContent>
+                  {/* <DropdownMenuContent>
                     <DropdownMenuLabel>My Account</DropdownMenuLabel>
                     <DropdownMenuSeparator />
                     <DropdownMenuItem onSelect={handleSignOut}>
                       <span>Sign Out</span>
                     </DropdownMenuItem>
-                  </DropdownMenuContent>
+                  </DropdownMenuContent> */}
+                  <NavMenu />
                 </DropdownMenu>
               )}
               <form action={handleSignOut}>
