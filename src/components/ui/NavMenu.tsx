@@ -30,7 +30,8 @@ import {
   DropdownMenuSubContent,
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"; //correct this path. tried with @/components/ui/dropdown-menu and still had problems
+} from "@/components/ui/dropdown-menu"; //correct this path. 
+import Link from "next/link";
 
 export function NavMenu() {
   return (
@@ -43,7 +44,10 @@ export function NavMenu() {
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
           <DropdownMenuItem>
-            <Link href="/dashboard" className="flex flexr-row">
+            <Link
+              href="/dashboard"
+              className="flex flex-row"
+            >
               <BarChartBig className="mr-2 h-4 w-4" />
               <span>Dashboard</span>
             </Link>
