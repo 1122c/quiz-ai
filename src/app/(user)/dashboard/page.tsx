@@ -2,6 +2,7 @@ import { db } from "@/db";
 import { eq } from "drizzle-orm";
 import { quizzes } from "@/db/schema";
 import { auth } from "@/auth";
+import QuizzesTable, { Quiz } from "./quizzesTable";
 
 const page = async () => {
     const session = await auth();
@@ -10,14 +11,12 @@ const page = async () => {
         return (<p>User not found</p>)
      };
 
-     const userQuizzes = await db.query.quizzes.findMany({
-        where: eq(quizzes.userId, userId)
+     const userQuizzes: Quiz[] = await db.query.quizzes.findMany({
+       where: eq(quizzes.userId, userId),
      });
 
      console.log(userQuizzes);
-    return(
-        <div>dashboard</div>
-    )
+    return <QuizzesTable quizzes={userQuizzes} />;
 }
 
 export default page;
