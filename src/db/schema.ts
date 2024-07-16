@@ -119,6 +119,7 @@ export const quizzes = pgTable("quizzes", {
 
 export const quizzesRelations = relations(quizzes, ({ many, one }) => ({
     questions: many(questions),
+    submissions: many(quizSubmissions),
 }));
 
 export const questions = pgTable("questions", {

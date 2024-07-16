@@ -2,6 +2,9 @@ import { useEffect } from "react";
 import Bar from "@/components/ui/Bar";
 import Image from "next/image";
 import { useReward } from "react-rewards";
+import { ChevronLeft, X } from "lucide-react";
+import { useRouter } from "next/navigation";
+import Button from "@/components/ui/Button"; // Ensure the import path is correct
 
 type Props = {
   scorePercentage: number;
@@ -11,16 +14,40 @@ type Props = {
 
 const QuizSubmission = (props: Props) => {
   const { scorePercentage, score, totalQuestions } = props;
-  const { reward } = useReward('rewardId', 'confetti'); //this isn't working - also span id on line 39
+  const { reward } = useReward("rewardId", "confetti"); // Ensure the span ID matches
+
+  const router = useRouter(); // Correct usage of useRouter
 
   useEffect(() => {
-    if (scorePercentage === 100){
-        reward()
+    if (scorePercentage === 100) {
+      reward();
     }
+  }, [scorePercentage, reward]);
 
-  }, [scorePercentage, reward])
+  const onHandleBack = () => {
+    router.back();
+  };
+
   return (
     <div className="flex flex-col flex-1">
+      <div className="position-sticky top-0 z-10 shadow-md py-4 w-full">
+        <header className="flex items-center justify-between py-2 gap-2">
+          <Button
+            size="icon"
+            variant="outline"
+            onClick={onHandleBack}
+          >
+            <ChevronLeft />
+          </Button>
+          <Button
+            size="icon"
+            variant="outline"
+            // onClick={handleExit}
+          >
+            <X />
+          </Button>
+        </header>
+      </div>
       <main className="py-11 flex flex-col gap-4 items-center flex-1 mt-24">
         <h2 className="text-3xl font-bold">Quiz is complete!</h2>
         <p>You scored: {scorePercentage}%</p>
@@ -36,7 +63,8 @@ const QuizSubmission = (props: Props) => {
                   height={300}
                 />
               </div>
-              {/* <span id="rewardID" />  */} 
+              <span id="rewardId" />{" "}
+              {/* Ensure the ID matches the useReward ID */}
             </div>
           </div>
         ) : (

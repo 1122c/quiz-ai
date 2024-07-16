@@ -117,7 +117,15 @@ export default function QuizQuestions(props: Props) {
     setIsCorrect(isCurrentCorrect);
   };
 
-  //const handleSubmit = async () => { where is this?????}
+  const handleSubmit = async () => { 
+    try {
+    const subId = await saveSubmission({score}, props.quiz.id);
+    } catch(e) {
+      console.log(e);
+    }
+
+    setSubmitted(true);
+   }
 
   const handlePressPrev = () => {
     if (currentQuestion! == 0) {
@@ -220,6 +228,9 @@ export default function QuizQuestions(props: Props) {
             )?.answerText || ""
           }
         />
+        {
+          currentQuestion === questions.length -1) ? <Button variant ="neo" size="lg" onClick={handleSubmit}>Submit</Button> :
+        }
         <Button
           variant="neo"
           size="lg"
@@ -227,8 +238,8 @@ export default function QuizQuestions(props: Props) {
         >
           {!started
             ? "Start"
-            : currentQuestion === questions.length - 1
-            ? "Submit"
+            // : currentQuestion === questions.length - 1
+            // ? "Submit"
             : "Next"}
         </Button>
       </footer>
