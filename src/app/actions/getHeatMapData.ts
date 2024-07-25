@@ -21,7 +21,7 @@ const getHeatMapData = async () => {
     .innerJoin(users, eq(quizzes.userId, users.id))
     .groupBy(quizSubmissions.createdAt);
 
-  return data;
+  return { data };
 };
 
 export default getHeatMapData;

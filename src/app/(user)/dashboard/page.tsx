@@ -4,7 +4,9 @@ import { quizzes } from "@/db/schema";
 import { auth } from "@/auth";
 import QuizzesTable, { Quiz } from "./quizzesTable";
 import getUserMetrics from "@/app/actions/getUserMetrics";
+import getHeatMapData from "@/app/actions/getHeatMapData";
 import MetricCard from "./metricCard";
+import Demo from "./heatMap";
 
 const page = async () => {
   const session = await auth();
@@ -19,7 +21,8 @@ const page = async () => {
   });
 
   const userData = await getUserMetrics();
-  console.log(userData);
+  const heatMapData = await getHeatMapData();
+  console.log(heatMapData);
 
   return (
     <>
@@ -34,6 +37,10 @@ const page = async () => {
               />
             ))
           : null}
+      </div>
+      <Demo />
+      <div>
+
       </div>
       <QuizzesTable quizzes={userQuizzes} />
     </>
