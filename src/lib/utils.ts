@@ -1,8 +1,9 @@
 import { type ClassValue, clsx } from "clsx"
-import { twMerge } from "tailwind-merge"
+import { time } from "console";
+import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs))
+  return twMerge(clsx(inputs));
 }
 
 function roundIfNumber(value: string | number | null) {
@@ -14,4 +15,14 @@ function roundIfNumber(value: string | number | null) {
     return rounded;
   }
   return value;
+}
+
+export function convertDateToString(date: Date): string {
+  const timestampDate = new Date(date);
+  const year = timestampDate.getFullYear();
+  const month = timestampDate.getMonth() + 1;
+  const day = timestampDate.getDate();
+
+  const formattedDate = `${year}/${month}/${day}`;
+  return formattedDate;
 }

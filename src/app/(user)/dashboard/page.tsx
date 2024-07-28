@@ -7,6 +7,7 @@ import getUserMetrics from "@/app/actions/getUserMetrics";
 import getHeatMapData from "@/app/actions/getHeatMapData";
 import MetricCard from "./metricCard";
 import Demo from "./heatMap";
+import SubmissionsHeatMap from "./heatMap";
 
 const page = async () => {
   const session = await auth();
@@ -38,10 +39,14 @@ const page = async () => {
             ))
           : null}
       </div>
-      <Demo />
+      <div>
+        {
+            heatMapData ? <SubmissionsHeatMap data={heatMapData.data} /> : null }
+      </div>
+      {/* <Demo />
       <div>
 
-      </div>
+      </div> */}
       <QuizzesTable quizzes={userQuizzes} />
     </>
   );
