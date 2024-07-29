@@ -92,8 +92,8 @@ export const verificationTokens = pgTable(
 export const authenticators = pgTable(
   "authenticator",
   {
-    credentialID: text("credentialID").notNull().unique(),
-    userId: text("userId")
+    credential_id: text("credential_id").notNull().unique(),
+    user_id: text("user_id")
       .notNull()
       .references(() => users.id, { onDelete: "cascade" }),
     providerAccountId: text("providerAccountId").notNull(),
@@ -105,7 +105,7 @@ export const authenticators = pgTable(
   },
   (authenticator) => ({
     compositePK: primaryKey({
-      columns: [authenticator.userId, authenticator.credentialID],
+      columns: [authenticator.user_id, authenticator.credential_id],
     }),
   })
 );
@@ -153,7 +153,7 @@ export const questionAnswerRelations = relations(questionAnswers, ({ one }) => (
 export const quizSubmissions = pgTable("quiz_submissions", {
   id: serial("id").primaryKey(),
   quizId: integer("quiz_id"),
-  score: integer("score")
+  score: integer("score"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
